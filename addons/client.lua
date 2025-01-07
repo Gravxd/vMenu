@@ -36,7 +36,6 @@ end)
 
 if debug then
 	RegisterCommand("debug_vmenucolour", function()
-		print("das")
 		exports.vMenu:colourDialog(1)
 	end, false)
 end
