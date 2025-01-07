@@ -1,3 +1,5 @@
+local debug = GetConvar("vmenu_addons_debug", "false") == "true"
+
 exports(
 	"inputDialog",
 	function(windowTitle, defaultText, maxLength)
@@ -31,7 +33,10 @@ exports("colourDialog", function(type)
     return input and input[1] or ""
 end)
 
-RegisterCommand("test", function()
-	print("das")
-	exports.vMenu:colourDialog(1)
-end)
+
+if debug then
+	RegisterCommand("debug_vmenucolour", function()
+		print("das")
+		exports.vMenu:colourDialog(1)
+	end, false)
+end
