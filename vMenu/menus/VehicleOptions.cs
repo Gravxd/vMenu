@@ -2044,7 +2044,7 @@ namespace vMenuClient.menus
 
                 bool isLowGripAvailable = GetGameBuildNumber() >= 2372;
                 var lowGripTires = new MenuCheckboxItem("Low Grip Tires", "Enable or disable ~y~low grip tires~s~ for this vehicle.", isLowGripAvailable ? GetDriftTyresEnabled(veh.Handle) : false);
-                if (isLowGripAvailable)
+                if (IsAllowed(Permission.VOPlowGripTires))
                 {
                     VehicleModMenu.AddMenuItem(lowGripTires);
                 }
