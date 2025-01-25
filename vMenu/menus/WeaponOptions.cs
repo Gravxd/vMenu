@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using CitizenFX.Core;
 
@@ -115,7 +116,7 @@ namespace vMenuClient.menus
 
                     addonWeaponInfo.Add(addonWeaponMenu, addonWeapon);
 
-                    var getOrRemoveWeapon = new MenuItem("Equip/Remove Weapon", "Add or remove this weapon to/form your inventory.")
+                    var getOrRemoveWeapon = new MenuItem("Equip/Remove Weapon", "Add or remove this weapon to/from your inventory.")
                     {
                         LeftIcon = MenuItem.Icon.GUN
                     };
@@ -206,12 +207,12 @@ namespace vMenuClient.menus
                     {
                         foreach (var comp in addonWeapon.AddonComponents)
                         {
-                            var compItem = new MenuItem(comp.Key, "Click to equip or remove this component.");
+                            var compItem = new MenuCheckboxItem(comp.Key, "Checkbox to equip or remove this component.");
                             addonWeaponComponents.Add(compItem, comp.Key);
                             addonWeaponMenu.AddMenuItem(compItem);
 
                             #region Handle component button presses
-                            addonWeaponMenu.OnItemSelect += (sender, item, index) =>
+                            addonWeaponMenu.OnCheckboxChange += (sender, item, index, _checked) =>
                             {
                                 if (item != compItem) return;
 
@@ -225,7 +226,15 @@ namespace vMenuClient.menus
                                     if (HasPedGotWeaponComponent(Game.PlayerPed.Handle, weapon.Hash, componentHash))
                                     {
                                         RemoveWeaponComponentFromPed(Game.PlayerPed.Handle, weapon.Hash, componentHash);
-                                        Subtitle.Custom("Component removed.");
+                                        if (HasPedGotWeaponComponent(Game.PlayerPed.Handle, weapon.Hash, componentHash))
+                                        {
+                                            Subtitle.Custom("Component unable to be removed.");
+                                            item.Checked = true;
+                                        }
+                                        else
+                                        {
+                                            Subtitle.Custom("Component removed.");
+                                        }
                                     }
                                     else
                                     {
@@ -600,6 +609,11 @@ namespace vMenuClient.menus
                                 GiveWeaponToPed(Game.PlayerPed.Handle, hash, ammo, false, true);
                                 Subtitle.Custom("Weapon added.");
                             }
+                            foreach (var componentItem in weaponMenu.GetMenuItems().OfType<MenuCheckboxItem>())
+                            {
+                                componentItem.Enabled = HasPedGotWeapon(Game.PlayerPed.Handle, hash, false);
+                                componentItem.Checked = componentItem.Enabled && HasPedGotWeaponComponent(Game.PlayerPed.Handle, hash, weaponInfo[weaponMenu].Components[weaponComponents[componentItem]]);
+                            }
                         }
                         else if (item == fillAmmo)
                         {
@@ -622,12 +636,15 @@ namespace vMenuClient.menus
                     {
                         foreach (var comp in weapon.Components)
                         {
-                            var compItem = new MenuItem(comp.Key, "Click to equip or remove this component.");
+                            var compItem = new MenuCheckboxItem(comp.Key, "Checkbox to equip or remove this component.", HasPedGotWeaponComponent(Game.PlayerPed.Handle, weapon.Hash, comp.Value))
+                            {
+                                Enabled = HasPedGotWeapon(Game.PlayerPed.Handle, weapon.Hash, false)
+                            };
                             weaponComponents.Add(compItem, comp.Key);
                             weaponMenu.AddMenuItem(compItem);
 
-                            #region Handle component button presses
-                            weaponMenu.OnItemSelect += (sender, item, index) =>
+                            #region Handle component checkbox changes
+                            weaponMenu.OnCheckboxChange += (sender, item, index, _checked) =>
                             {
                                 if (item != compItem) return;
                                 var weaponData = weaponInfo[sender];
@@ -636,10 +653,24 @@ namespace vMenuClient.menus
                                 {
                                     SetCurrentPedWeapon(Game.PlayerPed.Handle, weaponData.Hash, true);
 
-                                    if (HasPedGotWeaponComponent(Game.PlayerPed.Handle, weaponData.Hash, componentHash))
+                                    if (!_checked)
                                     {
                                         RemoveWeaponComponentFromPed(Game.PlayerPed.Handle, weaponData.Hash, componentHash);
-                                        Subtitle.Custom("Component removed.");
+                                        if (HasPedGotWeaponComponent(Game.PlayerPed.Handle, weaponData.Hash, componentHash))
+                                        {
+                                            Subtitle.Custom("Component unable to be removed.");
+                                            item.Checked = true;
+                                        }
+                                        else
+                                        {
+                                            Subtitle.Custom("Component removed.");
+                                        }
+
+                                        if (item is MenuCheckboxItem componentItem && weaponComponents.ContainsKey(componentItem))
+                                        {
+                                            componentItem.Enabled = HasPedGotWeapon(Game.PlayerPed.Handle, weaponData.Hash, false);
+                                            componentItem.Checked = componentItem.Enabled && HasPedGotWeaponComponent(Game.PlayerPed.Handle, componentHash, weaponInfo[weaponMenu].Components[weaponComponents[componentItem]]);
+                                        }
                                     }
                                     else
                                     {
@@ -664,7 +695,12 @@ namespace vMenuClient.menus
                         GiveWeaponComponentToPed(Game.PlayerPed.Handle, weaponHash, componentHash);
                         SetAmmoInClip(Game.PlayerPed.Handle, weaponHash, clipAmmo);
                         SetPedAmmo(Game.PlayerPed.Handle, weaponHash, ammo);
-                    }
+                        Wait(1000);
+                        foreach (var componentItem in weaponMenu.GetMenuItems().OfType<MenuCheckboxItem>())
+                        {
+                            componentItem.Checked = HasPedGotWeaponComponent(Game.PlayerPed.Handle, weaponHash, weaponInfo[weaponMenu].Components[weaponComponents[componentItem]]);
+                        }
+        }
                     #endregion
                     #region refresh and add to menu.
                     weaponMenu.RefreshIndex();
