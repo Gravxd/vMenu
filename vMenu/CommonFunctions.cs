@@ -1284,6 +1284,11 @@ namespace vMenuClient
                 return 0;
             }
 
+            if (!IsAllowed(Permission.VOBulletproofTires))
+            {
+                vehicleInfo.bulletProofTires = false;
+            }
+
             var speed = 0f;
             var rpm = 0f;
             if (Game.PlayerPed.IsInVehicle())
@@ -1680,7 +1685,7 @@ namespace vMenuClient
                         wheelType = GetVehicleWheelType(veh.Handle),
                         windowTint = (int)veh.Mods.WindowTint,
                         xenonHeadlights = IsToggleModOn(veh.Handle, 22),
-                        bulletProofTires = !veh.CanTiresBurst,
+                        bulletProofTires = veh.CanTiresBurst ? false : true,
                         headlightColor = VehicleOptions.GetHeadlightsColorForVehicle(veh),
                         enveffScale = GetVehicleEnveffScale(veh.Handle),
                         Category = string.IsNullOrEmpty(existingCatergory) ? "Uncategorized" : existingCatergory
