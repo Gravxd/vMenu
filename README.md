@@ -29,7 +29,7 @@ I have a direct suggestions channel so you can give ideas and request stuff to b
 This is a custom sharing system I designed for vMenu to follow similar behaviour i've seen in some clothing creators on economy servers.
 This allows for super easy & simple sharing MP ped configurations between players and eventually vehicles is the plan.
 
-Players create unique codes for a saved MP Ped and can give that code out where others can then load that ped into their saved MP Peds allowing easy sharing of department rosters.
+Players create unique codes for a saved MP Ped and can give that code out where others can then load said outfit keeping their unique characteristics like hair, tattoos etc but getting clothing & prop options allowing super easy sharing!
 Say goodbye to huge spreadsheets with different numbers and say hello to simple one code input for your roleplay servers!
 
 ### Vehicle
