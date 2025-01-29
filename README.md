@@ -7,9 +7,6 @@ Here's an example where we can move away from 3 separate input popups for rgb nu
 
 ![Medal_ErnwOZVBn9](https://github.com/user-attachments/assets/a83d965e-05f0-4125-9e9c-65d7f03c0fd0)
 
-
-<img src="https://github.com/user-attachments/assets/d960116b-3540-485b-ad7a-ecaa1fdd42e4" width="500"><br>
-
 --------
 
 ### Download & Install
@@ -29,8 +26,11 @@ I have a direct suggestions channel so you can give ideas and request stuff to b
   - Replaces the base game user input and replaces with ox_lib input dialog for easier use such as copy/pasting spawncodes etc.
 
 ### Code Share System
-This is a custom sharing system i designed for vMenu to follow similar behaviour i've seen in some clothing creators on economy servers.
+This is a custom sharing system I designed for vMenu to follow similar behaviour i've seen in some clothing creators on economy servers.
 This allows for super easy & simple sharing MP ped configurations between players and eventually vehicles is the plan.
+
+Players create unique codes for a saved MP Ped and can give that code out where others can then load that ped into their saved MP Peds allowing easy sharing of department rosters.
+Say goodbye to huge spreadsheets with different numbers and say hello to simple one code input for your roleplay servers!
 
 ### Vehicle
 - Colour Selector
@@ -47,6 +47,7 @@ This allows for super easy & simple sharing MP ped configurations between player
 ### Misc
 - Keybinds for Thermal & Night Vision Modes
   - This is locked to users that have the permissions assigned to them.
+<img src="https://github.com/user-attachments/assets/d960116b-3540-485b-ad7a-ecaa1fdd42e4" width="500"><br>
 - Patched vulnerability on weather events that could easily be exploited - thanks to [this pull](https://github.com/TomGrobbe/vMenu/pull/430/) that isn't merged still as of 7th jan
 
 ### Devtools
