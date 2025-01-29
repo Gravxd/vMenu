@@ -28,6 +28,10 @@ I have a direct suggestions channel so you can give ideas and request stuff to b
 - Input Dialog Replace
   - Replaces the base game user input and replaces with ox_lib input dialog for easier use such as copy/pasting spawncodes etc.
 
+### Code Share System
+This is a custom sharing system i designed for vMenu to follow similar behaviour i've seen in some clothing creators on economy servers.
+This allows for super easy & simple sharing MP ped configurations between players and eventually vehicles is the plan.
+
 ### Vehicle
 - Colour Selector
   - Gives users a hex selector for custom colour setting within vehicle options (primary/secondary)
@@ -35,7 +39,7 @@ I have a direct suggestions channel so you can give ideas and request stuff to b
   - Bulletproof Tires `vMenu.VehicleOptions.BulletproofTires` (default: denied)
 - Fixed getting disarmed (weapon taken away) when locking/unlocking personal vehicles
 - Implemented cooldown between usage of close all doors to patch exploit to make cars float/fly
-- Cooldown when spawning vehicles to prevent players from spam spawning vehicles
+- Configurable cooldown when spawning vehicles to prevent players from spam spawning vehicles
 
 ### Weather
 - Added convar `vmenu_blackout_affect_vehicles` (default: false) so that vehicle headlights/police lightbars continue to operate during blackouts
@@ -52,7 +56,7 @@ I have a direct suggestions channel so you can give ideas and request stuff to b
 
 # Developer Integrations
 Below is information related to exposed events/functions you can use in your resources to integrate your server better with vMenu.
-In the FiveM resource, head to `addons` folder and you will see files labelled `integrations_client` & `integrations_server`. 
+In the FiveM resource, head to the `client` & `server` folders and you will see files labelled `integrations`.
 
 Here you will find any events/exports for use and you can implement your server specific needs.
 
@@ -74,7 +78,7 @@ end)
 - [ ] Take weapon spawning functionality out of c# and add export for LUA so that devs can easily integrate ox_inventory
 - [ ] Export to add weapons + attachments into vmenu categories without them having to rebuild [REMOVE ADDON WEAPON SUBMENU / CODE] (maybe this gets extended to peds/vehicles?)
 - [x] Add a export before weapon/vehicle spawning/teleports such as isRestrained() so developers can easily block actions and add their own cuff/death scripts etc
-- [ ] ~~Separate branch (maybe?) for outfit/weapon/vehicle code system~~ Planned to go ahead in main fork and add dependency of oxmysql as most servers use it. Maybe ill just do a resource check so if the resource isnt installed the buttons just error and say plugin not installed or smth?
+- [x] ~~Separate branch (maybe?) for outfit/weapon/vehicle code system~~ Planned to go ahead in main fork and add dependency of oxmysql as most servers use it. Maybe ill just do a resource check so if the resource isnt installed the buttons just error and say plugin not installed or smth?
 - [ ] Update weapon attachment right button if it is equipped (checkmark)
 - [x] Copy Coords Button (devtools)
 - [ ] Ability to save BP tires on vehicles? (would need to perm check on re-apply)
