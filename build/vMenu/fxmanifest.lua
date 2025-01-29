@@ -41,3 +41,7 @@ server_scripts {
     'config/config_server.lua',
     'server/*.lua'
 }
+
+dependencies {
+    'ox_lib'
+}
