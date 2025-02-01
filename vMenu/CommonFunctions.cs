@@ -1519,7 +1519,15 @@ namespace vMenuClient
 
                 SetVehicleWindowTint(vehicle.Handle, vehicleInfo.windowTint);
 
-                vehicle.CanTiresBurst = !vehicleInfo.bulletProofTires;
+                if (IsAllowed(Permission.VOBulletproofTires))
+                {
+                    // fix for bulletproof tires applying to people that dont have bulletproof tyre permissions
+                    vehicle.CanTiresBurst = !vehicleInfo.bulletProofTires;
+                } 
+                else
+                {
+                    vehicle.CanTiresBurst = true;
+                }
 
                 SetVehicleEnveffScale(vehicle.Handle, vehicleInfo.enveffScale);
 
