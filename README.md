@@ -34,7 +34,7 @@ I have a direct suggestions channel so you can give ideas and request stuff to b
 
 ## Code Share System
 For code sharing to function, you will require [oxmysql](https://github.com/overextended/oxmysql/releases)<br>
-You will also need to enable the system via convar in the `permissions.cfg` via `setr vmenu_outfitcodes 1` (0 by default = disabled)
+If you have oxmysql, you can enable the outfit/vehicle sharing systems in the `permissions.cfg`
 
 This is a custom sharing system I designed for vMenu to follow similar behaviour i've seen in some clothing creators on economy servers.
 This allows for super easy & simple sharing MP ped configurations between players and eventually vehicles is the plan.
@@ -100,6 +100,7 @@ end)
 ```
 
 ### To-Do / Suggested Ideas
+- [ ] Implement ids into notifications to cleanup / stop duplicate spammy notifications
 - [ ] Sync Time/Weather into GlobalStates
 - [ ] Add new event for ban manager so that developers can easily integrate their own anticheat/banning functions for event exploiters
 - [x] Ratelimit on close all/open all doors (exploit to make cars fly)
