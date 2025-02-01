@@ -14,6 +14,7 @@ using vMenuClient.data;
 using static CitizenFX.Core.Native.API;
 using static vMenuClient.CommonFunctions;
 using static vMenuClient.MpPedDataManager;
+using static vMenuShared.ConfigManager;
 
 namespace vMenuClient.menus
 {
@@ -50,8 +51,7 @@ namespace vMenuClient.menus
         private MultiplayerPedData currentCharacter = new();
         private MpCharacterCategory currentCategory = new();
 
-        public static bool OutfitCodesEnabled = vMenuShared.ConfigManager.GetSettingsInt(vMenuShared.ConfigManager.Setting.vmenu_outfitcodes) > 0;
-
+        public static bool OutfitCodesEnabled = GetSettingsBool(Setting.vmenu_outfitcodes);
 
         /// <summary>
         /// Makes or updates the character creator menu. Also has an option to load data from the <see cref="currentCharacter"/> data, to allow for editing an existing ped.
