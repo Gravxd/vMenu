@@ -1,4 +1,9 @@
 Config = {
+
+    OutfitSharing = {
+        CommandEnabled = true, -- Enable the /loadoutfitfromcode command
+    },
+
     Notify = function(title, msg, ntype, time)
         -- these are just different examples i did for ox_lib, you can change these of course how you like
         if ntype == "error" then
@@ -41,4 +46,5 @@ Config = {
             })
         end
     end,
+
 }
