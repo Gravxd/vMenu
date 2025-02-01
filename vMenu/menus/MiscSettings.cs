@@ -145,7 +145,7 @@ namespace vMenuClient.menus
             var lockCamY = new MenuCheckboxItem("Lock Camera Vertical Rotation", "Locks your camera vertical rotation. Could be useful in helicopters I guess.", false);
 
             // Entity spawner
-            var spawnNewEntity = new MenuItem("Spawn New Entity", "Spawns entity into the world and lets you set its position and rotation");
+            var spawnNewEntity = new MenuItem("Spawn New Entity", "Spawns entity into the world and lets you set its position and rotation.\n~y~Upon creation, all entities are automatically frozen in position.");
             var confirmEntityPosition = new MenuItem("Confirm Entity Position", "Stops placing entity and sets it at it current location.");
             var cancelEntity = new MenuItem("Cancel", "Deletes current entity and cancels its placement");
             var confirmAndDuplicate = new MenuItem("Confirm Entity Position And Duplicate", "Stops placing entity and sets it at it current location and creates new one to place.");
@@ -642,6 +642,11 @@ namespace vMenuClient.menus
                 bool nvEnabled = false;
                 RegisterCommand("toggle-nv", new Action<int, List<object>, string>((source, args, rawCommand) =>
                 {
+                    if(!CanDoInteraction("nightvision"))
+                    {
+                        Notify.Error("You can't use night vision right now.");
+                        return;
+                    }
                     nvEnabled = !nvEnabled;
                     nightVision.Checked = nvEnabled;
                     SetNightvision(nvEnabled);
@@ -655,6 +660,11 @@ namespace vMenuClient.menus
                 bool tvEnabled = false;
                 RegisterCommand("toggle-tv", new Action<int, List<object>, string>((source, args, rawCommand) =>
                 {
+                    if (!CanDoInteraction("thermalvision"))
+                    {
+                        Notify.Error("You can't use thermal vision right now.");
+                        return;
+                    }
                     tvEnabled = !tvEnabled;
                     thermalVision.Checked = tvEnabled;
                     SetSeethrough(tvEnabled);
@@ -764,10 +774,22 @@ namespace vMenuClient.menus
                 }
                 else if (item == nightVision)
                 {
+                    if (!CanDoInteraction("nightvision"))
+                    {
+                        Notify.Error("You can't use night vision right now.");
+                        nightVision.Checked = false;
+                        return;
+                    }
                     SetNightvision(_checked);
                 }
                 else if (item == thermalVision)
                 {
+                    if (!CanDoInteraction("thermalvision"))
+                    {
+                        Notify.Error("You can't use thermal vision right now.");
+                        thermalVision.Checked = false;
+                        return;
+                    }
                     SetSeethrough(_checked);
                 }
                 else if (item == lockCamX)
