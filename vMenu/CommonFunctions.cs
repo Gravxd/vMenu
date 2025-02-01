@@ -35,11 +35,20 @@ namespace vMenuClient
         public bool CanDoInteraction(string type)
         {
             return Exports["vMenu"].canDoInteraction(type);
+
+        }
+        public async Task<bool> LoadSharedOutfit(string outfitName)
+        {
+            return await Exports["vMenu"].loadSharedOutfit(outfitName);
+        }
+        public async Task<bool> GetUserConfirmation(string windowTitle, string description)
+        {
+            return await Exports["vMenu"].getUserConfirmation(windowTitle, description);
         }
     }
 
-    public static class CommonFunctions
-    {
+        public static class CommonFunctions
+        {
         #region Variables
         private static string _currentScenario = "";
         private static Vehicle _previousVehicle;
@@ -1872,6 +1881,16 @@ namespace vMenuClient
         {
             var ExternalFunctions = new ExternalFunctions();
             return ExternalFunctions.CanDoInteraction(type);
+        }
+        public static async Task<bool> LoadSharedOutfit(string outfitName)
+        {
+            var ExternalFunctions = new ExternalFunctions();
+            return await ExternalFunctions.LoadSharedOutfit(outfitName);
+        }
+        public static async Task<bool> GetUserConfirmation(string windowTitle, string description)
+        {
+            var ExternalFunctions = new ExternalFunctions();
+            return await ExternalFunctions.GetUserConfirmation(windowTitle, description);
         }
         #endregion
 
