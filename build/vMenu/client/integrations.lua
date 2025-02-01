@@ -27,12 +27,8 @@ AddEventHandler("vMenu:Integrations:NoClip", function(enabled)
     lib.print.debug("NoClip: " .. tostring(enabled))
 end)
 
--- InteractionType "spawnvehicle" | "refillammo" | "spawnweapon" | "spawnloadout" | "noclip"
----@class canDoInteraction
----@field type string
----@return boolean Returns true if the player can do the interaction, false otherwise
-exports("canDoInteraction", function(type)
-    --[[
+--#region Example Interaction Checks
+--[[
         Example Usage:
         -- Prevent weapon spawning while in vehicles or dead
         if type == "spawnweapon" then
@@ -142,6 +138,33 @@ exports("canDoInteraction", function(type)
             end
         end
     --]]
+--#endregion
 
+---@class canDoInteraction
+---@field type string
+---@return boolean Returns true if the player can do the interaction, false otherwise
+exports("canDoInteraction", function(type)
+    if type == "spawnvehicle" then
+
+    elseif type == "refillammo" then
+
+    elseif type == "spawnweapon" then
+
+    elseif type == "spawnloadout" then
+
+    elseif type == "noclip" then
+
+    elseif type == "nightvision" then
+
+    elseif type == "thermalvision" then
+
+    end
     return true -- Always leave as true, and handle each interaction type as needed with an if statement.
+end)
+
+---@class customNotify
+---@field description string
+---@field ntype string
+AddEventHandler("vMenu:CustomNotify", function(description, ntype)
+    Config.Notify("vMenu", description, ntype, 6500)
 end)
