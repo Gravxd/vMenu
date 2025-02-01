@@ -74,7 +74,7 @@ namespace vMenuClient
     /// <summary>
     /// Notifications class to easilly show notifications using custom made templates,
     /// or completely custom style if none of the templates are fitting for the current task.
-    /// </summary
+    /// </summary>
     public static class Notify
     {
 
