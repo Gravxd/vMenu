@@ -100,6 +100,7 @@ end)
 ```
 
 ### To-Do / Suggested Ideas
+- [ ] - Alphabetically sort weapons in categories
 - [ ] Implement ids into notifications to cleanup / stop duplicate spammy notifications
 - [ ] Sync Time/Weather into GlobalStates
 - [ ] Add new event for ban manager so that developers can easily integrate their own anticheat/banning functions for event exploiters
