@@ -63,7 +63,7 @@ _Say goodbye to huge spreadsheets with different numbers and say hello to simple
 - Keybinds for Thermal & Night Vision Modes
   - This is locked to users that have the permissions assigned to them.
     <img src="https://github.com/user-attachments/assets/d960116b-3540-485b-ad7a-ecaa1fdd42e4" width="500"><br>
-- Patched vulnerability on weather events that could easily be exploited - thanks to [this pull](https://github.com/TomGrobbe/vMenu/pull/430/) that isn't merged still as of 7th jan
+- Patched vulnerability on weather events that could easily be exploited - thanks to [this pull](https://github.com/TomGrobbe/vMenu/pull/430/) that isn't merged as of 7th Jan 25.
 
 ### Devtools
 
@@ -99,10 +99,9 @@ exports("canDoInteraction", function(type)
 end)
 ```
 
-### To-Do
+### To-Do / Suggested Ideas
 - [ ] Sync Time/Weather into GlobalStates
 - [ ] Add new event for ban manager so that developers can easily integrate their own anticheat/banning functions for event exploiters
-- [ ] Create separate branch for pre-category version of vMenu with same features/improvements
 - [x] Ratelimit on close all/open all doors (exploit to make cars fly)
 - [x] Configurable vehicle spawn cooldown
 - [ ] Take weapon spawning functionality out of c# and add export for LUA so that devs can easily integrate ox_inventory
