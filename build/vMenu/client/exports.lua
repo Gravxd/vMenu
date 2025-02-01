@@ -44,6 +44,17 @@ exports("colourDialog", function(type)
 	})
 	return input and input[1] or ""
 end)
+
+exports("getUserConfirmation", function(title, description)
+	local confirmed = lib.alertDialog({
+		header = format("vMenu - %s", title),
+		content = description,
+		centered = true,
+		cancel = true,
+	})
+	return confirmed and confirmed == "confirm" or false
+end)
+
 --#endregion
 
 --#region Misc Exports
