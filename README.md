@@ -1,4 +1,5 @@
-# vMenu-OX 
+# vMenu-OX
+
 This is a fork of vMenu designed to integrate with [ox_lib](https://github.com/overextended/ox_lib/releases/latest) you will require it for this to work.
 
 This fork introduces some new exports that work with ox_lib for better UI features and to make the menu more convenient/easier to use for players.
@@ -7,14 +8,16 @@ Here's an example where we can move away from 3 separate input popups for rgb nu
 
 ![Medal_ErnwOZVBn9](https://github.com/user-attachments/assets/a83d965e-05f0-4125-9e9c-65d7f03c0fd0)
 
---------
+---
 
 ### Download & Install
+
 Click [here](https://github.com/Gravxd/vMenu-ox/releases/) to go to the releases page and download `vMenu.zip` - this will be your fivem resource folder.
 
---------
+---
 
 ### Support/Issues with my Fork
+
 If you require support or have an issue / suggestion, feel free to join my discord!
 I have a direct suggestions channel so you can give ideas and request stuff to be added.
 [discord.gg/chromalabs](https://discord.gg/chromalabs)
@@ -22,17 +25,22 @@ I have a direct suggestions channel so you can give ideas and request stuff to b
 # Fork Features/Changes
 
 ### Core/UI
+
 - Input Dialog Replace
   - Replaces the base game user input and replaces with ox_lib input dialog for easier use such as copy/pasting spawncodes etc.
+- User Confirmations
+  - Important actions like weather/time changes have user confirmation buttons preventing unwanted mishaps with a misclick.
 
 ### Code Share System
+
 This is a custom sharing system I designed for vMenu to follow similar behaviour i've seen in some clothing creators on economy servers.
 This allows for super easy & simple sharing MP ped configurations between players and eventually vehicles is the plan.
 
 Players create unique codes for a saved MP Ped and can give that code out where others can then load said outfit keeping their unique characteristics like hair, tattoos etc but getting clothing & prop options allowing super easy sharing!
-Say goodbye to huge spreadsheets with different numbers and say hello to simple one code input for your roleplay servers!
+_Say goodbye to huge spreadsheets with different numbers and say hello to simple one code input for your roleplay servers!_
 
 ### Vehicle
+
 - Colour Selector
   - Gives users a hex selector for custom colour setting within vehicle options (primary/secondary)
 - New Permissions
@@ -42,31 +50,47 @@ Say goodbye to huge spreadsheets with different numbers and say hello to simple 
 - Configurable cooldown when spawning vehicles to prevent players from spam spawning vehicles
 
 ### Weather
+
 - Added convar `vmenu_blackout_affect_vehicles` (default: false) so that vehicle headlights/police lightbars continue to operate during blackouts
 
 ### Misc
+
 - Keybinds for Thermal & Night Vision Modes
   - This is locked to users that have the permissions assigned to them.
-<img src="https://github.com/user-attachments/assets/d960116b-3540-485b-ad7a-ecaa1fdd42e4" width="500"><br>
+    <img src="https://github.com/user-attachments/assets/d960116b-3540-485b-ad7a-ecaa1fdd42e4" width="500"><br>
 - Patched vulnerability on weather events that could easily be exploited - thanks to [this pull](https://github.com/TomGrobbe/vMenu/pull/430/) that isn't merged still as of 7th jan
 
 ### Devtools
+
 - Auto freeze entites created with the entity spawner menu (to avoid them falling through map automatically on contact)
 - Copy Coordinates Button (vector4)
 - Copy Vehicle Model Hash
 
 # Developer Integrations
+
 Below is information related to exposed events/functions you can use in your resources to integrate your server better with vMenu.
 In the FiveM resource, head to the `client` & `server` folders and you will see files labelled `integrations`.
 
 Here you will find any events/exports for use and you can implement your server specific needs.
 
 Example Client Event:
+
 ```lua
----@class infiniteFuelToggled
 ---@field enabled boolean
 AddEventHandler("vMenu:Integrations:InfiniteFuel", function(enabled)
     lib.print.debug("Infinite Fuel: " .. tostring(enabled))
+end)
+```
+
+We also built a handy export for developers to block simple actions like spawning vehicles in restricted areas (jail, whilst dead etc)
+
+```lua
+---@field type string
+exports("canDoInteraction", function(type)
+    if type == "spawnvehicle" then
+      if exports.core.isJailed() then return false end -- would block the user from spawning vehicles in jail.
+    end
+    return true
 end)
 ```
 
@@ -100,6 +124,6 @@ vMenu is a server-side menu for FiveM servers created by Vespura - find the orig
 Tom Grobbe - https://www.vespura.com/
 Copyright © 2017-2025
 
-You can use and edit this code to your liking as long as you don't ever claim it to be your code and always provide proper credit. 
+You can use and edit this code to your liking as long as you don't ever claim it to be your code and always provide proper credit.
 You're **not** allowed to sell vMenu or any code you take from it.
 If you want to release your version of vMenu, you have to link the original GitHub repo or release it via a Forked repo.
