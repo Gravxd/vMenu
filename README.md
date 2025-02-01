@@ -1,4 +1,4 @@
-# vMenu-OX
+# vMenu-ox
 
 This is a fork of vMenu designed to integrate with [ox_lib](https://github.com/overextended/ox_lib/releases/latest) you will require it for this to work.
 
@@ -30,13 +30,17 @@ I have a direct suggestions channel so you can give ideas and request stuff to b
   - Replaces the base game user input and replaces with ox_lib input dialog for easier use such as copy/pasting spawncodes etc.
 - User Confirmations
   - Important actions like weather/time changes have user confirmation buttons preventing unwanted mishaps with a misclick.
+![vmenuoxconfirmbuttons](https://github.com/user-attachments/assets/a1b53f95-f505-4ee2-9114-7082a5865685)
 
-### Code Share System
+## Code Share System
+For code sharing to function, you will require [oxmysql](https://github.com/overextended/oxmysql/releases)<br>
+You will also need to enable the system via convar in the `permissions.cfg` via `setr vmenu_outfitcodes 1` (0 by default = disabled)
 
 This is a custom sharing system I designed for vMenu to follow similar behaviour i've seen in some clothing creators on economy servers.
 This allows for super easy & simple sharing MP ped configurations between players and eventually vehicles is the plan.
 
 Players create unique codes for a saved MP Ped and can give that code out where others can then load said outfit keeping their unique characteristics like hair, tattoos etc but getting clothing & prop options allowing super easy sharing!
+
 _Say goodbye to huge spreadsheets with different numbers and say hello to simple one code input for your roleplay servers!_
 
 ### Vehicle
@@ -48,6 +52,7 @@ _Say goodbye to huge spreadsheets with different numbers and say hello to simple
 - Fixed getting disarmed (weapon taken away) when locking/unlocking personal vehicles
 - Implemented cooldown between usage of close all doors to patch exploit to make cars float/fly
 - Configurable cooldown when spawning vehicles to prevent players from spam spawning vehicles
+  - `setr vmenu_vehicle_spawner_cooldown 1000`
 
 ### Weather
 
