@@ -807,10 +807,32 @@ namespace vMenuClient.menus
                 }
                 else if (item == playerBlips)
                 {
+                    if (!CanDoInteraction("playerblips") && _checked)
+                    {
+                        Notify.Error("You can't enable player blips right now!");
+                        playerBlips.Checked = false;
+                        return;
+                    }
+                    var actionData = new Dictionary<string, object>
+                    {
+                        ["enabled"] = _checked
+                    };
+                    TriggerEvent("vMenu:Integrations:Action", "playerblips", actionData);
                     ShowPlayerBlips = _checked;
                 }
                 else if (item == playerNames)
                 {
+                    if (!CanDoInteraction("playernames") && _checked)
+                    {
+                        Notify.Error("You can't enable player names right now!");
+                        playerNames.Checked = false;
+                        return;
+                    }
+                    var actionData = new Dictionary<string, object>
+                    {
+                        ["enabled"] = _checked
+                    };
+                    TriggerEvent("vMenu:Integrations:Action", "playernames", actionData);
                     MiscShowOverheadNames = _checked;
                 }
                 else if (item == respawnDefaultCharacter)
