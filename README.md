@@ -101,7 +101,7 @@ end)
 ```
 
 ### To-Do / Suggested Ideas
-- [ ] - Alphabetically sort weapons in categories
+- [ ] Alphabetically sort weapons in categories
 - [ ] Implement ids into notifications to cleanup / stop duplicate spammy notifications
 - [ ] Sync Time/Weather into GlobalStates
 - [ ] Add new event for ban manager so that developers can easily integrate their own anticheat/banning functions for event exploiters
@@ -113,7 +113,7 @@ end)
 - [x] ~~Separate branch (maybe?) for outfit/weapon/vehicle code system~~ Planned to go ahead in main fork and add dependency of oxmysql as most servers use it. Maybe ill just do a resource check so if the resource isnt installed the buttons just error and say plugin not installed or smth?
 - [ ] Update weapon attachment right button if it is equipped (checkmark)
 - [x] Copy Coords Button (devtools)
-- [ ] Ability to save BP tires on vehicles? (would need to perm check on re-apply)
+- [x] Ability to save BP tires on vehicles? (would need to perm check on re-apply)
 - [x] Add an event that is triggered when infinite fuel is enabled so developers can easily integrate with scripts other than FRFUEL
 
 --------
