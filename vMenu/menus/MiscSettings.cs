@@ -642,7 +642,7 @@ namespace vMenuClient.menus
                 bool nvEnabled = false;
                 RegisterCommand("toggle-nv", new Action<int, List<object>, string>((source, args, rawCommand) =>
                 {
-                    if(!CanDoInteraction("nightvision"))
+                    if(!CanDoInteraction("nightvision") && !nvEnabled)
                     {
                         Notify.Error("You can't use night vision right now.");
                         return;
@@ -660,7 +660,7 @@ namespace vMenuClient.menus
                 bool tvEnabled = false;
                 RegisterCommand("toggle-tv", new Action<int, List<object>, string>((source, args, rawCommand) =>
                 {
-                    if (!CanDoInteraction("thermalvision"))
+                    if (!CanDoInteraction("thermalvision") && !tvEnabled)
                     {
                         Notify.Error("You can't use thermal vision right now.");
                         return;
@@ -774,7 +774,7 @@ namespace vMenuClient.menus
                 }
                 else if (item == nightVision)
                 {
-                    if (!CanDoInteraction("nightvision"))
+                    if (!CanDoInteraction("nightvision") && _checked)
                     {
                         Notify.Error("You can't use night vision right now.");
                         nightVision.Checked = false;
@@ -784,7 +784,7 @@ namespace vMenuClient.menus
                 }
                 else if (item == thermalVision)
                 {
-                    if (!CanDoInteraction("thermalvision"))
+                    if (!CanDoInteraction("thermalvision") && _checked)
                     {
                         Notify.Error("You can't use thermal vision right now.");
                         thermalVision.Checked = false;
