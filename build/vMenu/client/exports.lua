@@ -1,4 +1,5 @@
 -- You should not be editing this file unless you know what you are doing. This shouldn't need to be changed.
+-- For integrations, check client/integrations.lua
 
 
 
