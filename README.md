@@ -79,12 +79,33 @@ In the FiveM resource, head to the `client` & `server` folders and you will see 
 
 Here you will find any events/exports for use and you can implement your server specific needs.
 
-Example Client Event:
-
+**Example Client Event:**
 ```lua
----@field enabled boolean
-AddEventHandler("vMenu:Integrations:InfiniteFuel", function(enabled)
-    lib.print.debug("Infinite Fuel: " .. tostring(enabled))
+---@class logAction
+---@field action string
+---@field data table
+AddEventHandler("vMenu:Integrations:Action", function(action, data)
+    if action == "infinitefuel" then
+        ---@class data table
+        ---@field enabled boolean
+        lib.print.debug("Infinite Fuel: " .. tostring(data.enabled))
+    elseif action == "licenseplate" then
+        ---@class data table
+        ---@field handle integer
+        ---@field plate string
+        lib.print.debug("License Plate Updated: " .. data.handle .. " - " .. data.plate)
+        --[[
+            Example Usage:
+            if doesTextContainBlacklistedWord(plate) then
+                SetVehicleNumberPlateText(handle, "PLATE")
+                TriggerServerEvent("banplayer")
+            end
+        --]]
+    elseif action == "noclip" then
+        ---@class data table
+        ---@field enabled boolean
+        lib.print.debug("NoClip: " .. tostring(data.enabled)) 
+    end
 end)
 ```
 
