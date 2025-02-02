@@ -9,8 +9,7 @@ ui_page 'storage.html'
 
 lua54 "yes"
 shared_scripts {
-    "@ox_lib/init.lua",
-    "config/config_shared.lua",
+    "@ox_lib/init.lua"
 }
 
 -- Adds additional logging, useful when debugging issues.
@@ -37,7 +36,6 @@ client_scripts {
 }
 server_scripts {
     'vMenuServer.net.dll',
-    '@oxmysql/lib/MySQL.lua', -- Only uncomment if you are using outfit system
     'config/config_server.lua',
     'server/*.lua'
 }
