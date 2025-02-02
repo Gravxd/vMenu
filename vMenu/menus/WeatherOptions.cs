@@ -112,7 +112,7 @@ namespace vMenuClient.menus
                 }
                 else if (item.ItemData is string weatherType)
                 {
-                    bool confirmed = await GetUserConfirmation("Change Weather", $"Please confirm that you want to change the weather to: {item.Text}");
+                    bool confirmed = await GetUserConfirmation("Change Weather", $"Please confirm that you want to change the weather to: **{item.Text}**");
                     if (confirmed)
                     {
                         Notify.Custom($"The weather will be changed to ~y~{item.Text}~s~. This will take {EventManager.WeatherChangeTime} seconds.");
