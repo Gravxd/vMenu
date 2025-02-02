@@ -64,6 +64,7 @@ _Say goodbye to huge spreadsheets with different numbers and say hello to simple
   - This is locked to users that have the permissions assigned to them.
     <img src="https://github.com/user-attachments/assets/d960116b-3540-485b-ad7a-ecaa1fdd42e4" width="500"><br>
 - Patched vulnerability on weather events that could easily be exploited - thanks to [this pull](https://github.com/TomGrobbe/vMenu/pull/430/) that isn't merged as of 7th Jan 25.
+- Disable AI with ease, with a simple convar in your permissions.cfg - `set vmenu_disable_ai true` (false by default)
 
 ### Devtools
 
