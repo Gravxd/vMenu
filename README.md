@@ -113,8 +113,8 @@ We also built a handy export for developers to block simple actions like spawnin
 
 ```lua
 ---@field type string
-exports("canDoInteraction", function(type)
-    if type == "spawnvehicle" then
+exports("canDoInteraction", function(action)
+    if action == "spawnvehicle" then
       if exports.core.isJailed() then return false end -- would block the user from spawning vehicles in jail.
     end
     return true
