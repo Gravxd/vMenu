@@ -472,7 +472,8 @@ namespace vMenuClient.menus
                 }
                 else if (item == renameVehicle)
                 {
-                    var newName = await GetUserInput(windowTitle: "Enter a new name for this vehicle.", maxInputLength: 30);
+                    string currentlySelectedVehicleSaveName = currentlySelectedVehicle.Key.Substring(4); // gets rid of the veh_ prefix used to store in KVP
+                    var newName = await GetUserInput(windowTitle: "Enter a new name for this vehicle.", defaultText: currentlySelectedVehicleSaveName);
                     if (string.IsNullOrEmpty(newName))
                     {
                         Notify.Error(CommonErrors.InvalidInput);
