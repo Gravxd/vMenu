@@ -17,9 +17,9 @@ exports("loadSharedOutfit", function(name)
         return false
     end
 
-    local Existing = GetResourceKvpString(string.format("mp_ped_%s", name))
+    local Existing = GetResourceKvpString(format("mp_ped_%s", name))
     if not Existing then
-        print(string.format("Tried to generate outfit failed, name: %s", name))
+        lib.print.debug("Outfit data does not exist somehow?")
         Config.Notify("vMenu", "Error loading outfit, please try again!", "error", 6500)
         return false
     end
@@ -76,7 +76,7 @@ exports("loadSharedOutfit", function(name)
         end
     end
 
-    SetResourceKvp(string.format("mp_ped_%s", newName), json.encode(Data))
+    SetResourceKvp(format("mp_ped_%s", newName), json.encode(Data))
 
     Config.Notify("vMenu", "Outfit has been successfully loaded!", "success", 6500)
 
@@ -144,7 +144,7 @@ AddEventHandler("vMenu:Outfits:GenerateCode", function(name)
         return
     end
 
-    local Existing = GetResourceKvpString(string.format("mp_ped_%s", name))
+    local Existing = GetResourceKvpString(format("mp_ped_%s", name))
     if not Existing then
         Config.Notify("vMenu", "You do not have a MP ped saved with this name!", "error", 6500)
         return

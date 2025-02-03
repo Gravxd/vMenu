@@ -76,6 +76,7 @@ AddEventHandler("vMenu:Vehicles:GenerateCode", function(saveName)
 
     local vehicleData = GetResourceKvpString(format("veh_%s", saveName))
     if not vehicleData then
+        lib.print.debug("Vehicle data does not exist somehow?")
         Config.Notify("vMenu", "Error fetching vehicle data.", "error", 6500)
         return false
     end

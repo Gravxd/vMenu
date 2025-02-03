@@ -27,7 +27,7 @@ function rgbToHex(r, g, b)
 	b = math.max(0, math.min(255, b))
 
 	-- Format RGB values to hexadecimal string
-	return string.format("#%02X%02X%02X", r, g, b)
+	return format("#%02X%02X%02X", r, g, b)
 end
 
 ---@class colourDialog
