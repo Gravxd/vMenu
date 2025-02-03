@@ -1,9 +1,6 @@
 -- You should not be editing this file unless you know what you are doing. This shouldn't need to be changed.
 -- For integrations, check client/integrations.lua
 
-
-
---#region Input Dialogs
 ---@class inputDialog
 ---@param windowTitle string
 ---@param defaultText string
@@ -56,9 +53,6 @@ exports("getUserConfirmation", function(title, description)
 	return confirmed and confirmed == "confirm" or false
 end)
 
---#endregion
-
---#region Misc Exports
 ---@class copyToClipboard
 ---@param text string
 exports("copyToClipboard", function(text)
@@ -66,9 +60,7 @@ exports("copyToClipboard", function(text)
 	lib.setClipboard(text)
 	return ""
 end)
---#endregion
 
---#region Client Stuff
 CreateThread(function()
 	-- # Sets whether or not players can lose their head props when they are hit/pushed.
 	-- # true = Props will stay on player (default vMenu and GTA Online behavior)
@@ -88,4 +80,3 @@ CreateThread(function()
 		SetArtificialLightsStateAffectsVehicles(false)
 	end
 end)
---#endregion
