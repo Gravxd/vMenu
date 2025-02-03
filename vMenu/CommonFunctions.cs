@@ -1935,7 +1935,12 @@ namespace vMenuClient
                     {
                         // Set the license plate.
                         SetVehicleNumberPlateText(veh.Handle, text);
-                        TriggerEvent("vMenu:Integrations:LicensePlateUpdated", veh.Handle, text);
+                        var actionData = new Dictionary<string, object>
+                        {
+                            ["handle"] = veh.Handle,
+                            ["plate"] = text,
+                        };
+                        TriggerEvent("vMenu:Integrations:Action", "licenseplate", actionData);
                     }
                     // No valid text was given.
                     else
