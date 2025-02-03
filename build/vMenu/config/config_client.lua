@@ -1,7 +1,7 @@
 Config = {
 
     OutfitSharing = {
-        CommandEnabled = true, -- Enable the /loadoutfitfromcode command
+        CommandEnabled = false, -- Enable the /loadoutfitfromcode command
     },
 
     Notify = function(title, msg, ntype, time)
