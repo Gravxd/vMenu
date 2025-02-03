@@ -26,6 +26,7 @@ exports("loadSharedOutfit", function(name)
 
     local input = lib.inputDialog("Enter Outfit Code", {
         { type = 'number', label = 'Outfit Code', description = "The sharing code you were given.", icon = 'hashtag', required = true },
+        { type = 'input', label = 'Save Name', description = "What should we save this outfit as?", icon = 'tag', max = 30, min = 3, required = true },
     })
 
     if not input then
@@ -34,6 +35,14 @@ exports("loadSharedOutfit", function(name)
     end
 
     local code = input[1]
+    local newName = input[2]
+
+    local nameExists = GetResourceKvpString(format("mp_ped_%s", newName))
+    if nameExists then
+        Config.Notify("vMenu", "You have an outfit saved with that name already!", "error", 6500)
+        return false
+    end
+
     local Valid = lib.callback.await("vMenu:Outfits:Request", false, code)
     Cooldown = true
     SetTimeout(5000, function()
@@ -67,7 +76,7 @@ exports("loadSharedOutfit", function(name)
         end
     end
 
-    SetResourceKvp(string.format("mp_ped_%s - Loaded: %s", name, input[1]), json.encode(Data))
+    SetResourceKvp(string.format("mp_ped_%s", newName), json.encode(Data))
 
     Config.Notify("vMenu", "Outfit has been successfully loaded!", "success", 6500)
 
