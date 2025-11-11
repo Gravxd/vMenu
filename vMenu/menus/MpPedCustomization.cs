@@ -1380,27 +1380,29 @@ namespace vMenuClient.menus
             #endregion
 
             #region clothes
-            clothesMenu.OnListIndexChange += (_menu, listItem, oldSelectionIndex, newSelectionIndex, realIndex) =>
+            clothesMenu.OnListIndexChange += (_menu, listItem, oldSelectionIndex, newSelectionIndex, realIndex) => ChangeClothingListItem(realIndex, newSelectionIndex, listItem);
+
+            clothesMenu.OnListItemSelect += async (sender, listItem, listIndex, realIndex) =>
             {
-                var componentIndex = realIndex + 1;
-                if (realIndex > 0)
+                int controlIndex = 0;
+                bool isCtrlPressed = Game.IsControlPressed(controlIndex, Control.Duck);
+
+                if (isCtrlPressed)
                 {
-                    componentIndex += 1;
+                    string userInput = await GetUserInput("Enter Drawable ID", 5);
+
+                    if (string.IsNullOrEmpty(userInput) || !int.TryParse(userInput, out int drawableId) || drawableId < 0 || drawableId > listItem.ItemsCount)
+                    {
+                        Notify.Error("Invalid input");
+                        return;
+                    }
+
+                    listItem.ListIndex = drawableId;
+
+                    ChangeClothingListItem(realIndex, drawableId, listItem);
+                    return;
                 }
 
-                var textureIndex = GetPedTextureVariation(Game.PlayerPed.Handle, componentIndex);
-                var newTextureIndex = 0;
-                SetPedComponentVariation(Game.PlayerPed.Handle, componentIndex, newSelectionIndex, newTextureIndex, 0);
-                currentCharacter.DrawableVariations.clothes ??= new Dictionary<int, KeyValuePair<int, int>>();
-
-                var maxTextures = GetNumberOfPedTextureVariations(Game.PlayerPed.Handle, componentIndex, newSelectionIndex);
-
-                currentCharacter.DrawableVariations.clothes[componentIndex] = new KeyValuePair<int, int>(newSelectionIndex, newTextureIndex);
-                listItem.Description = $"Select a drawable using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{newTextureIndex + 1} (of {maxTextures}).";
-            };
-
-            clothesMenu.OnListItemSelect += (sender, listItem, listIndex, realIndex) =>
-            {
                 var componentIndex = realIndex + 1; // skip face options as that fucks up with inheritance faces
                 if (realIndex > 0) // skip hair features as that is done in the appeareance menu
                 {
@@ -1417,49 +1419,57 @@ namespace vMenuClient.menus
                 currentCharacter.DrawableVariations.clothes[componentIndex] = new KeyValuePair<int, int>(listIndex, newTextureIndex);
                 listItem.Description = $"Select a drawable using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{newTextureIndex + 1} (of {maxTextures}).";
             };
+
+            void ChangeClothingListItem(int itemIndex, int newSelectionIndex, MenuListItem listItem)
+            {
+                var componentIndex = itemIndex + 1;
+                if (itemIndex > 0)
+                {
+                    componentIndex += 1;
+                }
+
+                var textureIndex = GetPedTextureVariation(Game.PlayerPed.Handle, componentIndex);
+                var newTextureIndex = 0;
+                SetPedComponentVariation(Game.PlayerPed.Handle, componentIndex, newSelectionIndex, newTextureIndex, 0);
+                currentCharacter.DrawableVariations.clothes ??= new Dictionary<int, KeyValuePair<int, int>>();
+
+                var maxTextures = GetNumberOfPedTextureVariations(Game.PlayerPed.Handle, componentIndex, newSelectionIndex);
+
+                currentCharacter.DrawableVariations.clothes[componentIndex] = new KeyValuePair<int, int>(newSelectionIndex, newTextureIndex);
+                listItem.Description = $"Select a drawable using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{newTextureIndex + 1} (of {maxTextures}).";
+            }
             #endregion
 
             #region props
-            propsMenu.OnListIndexChange += (_menu, listItem, oldSelectionIndex, newSelectionIndex, realIndex) =>
+            propsMenu.OnListIndexChange += (_menu, listItem, oldSelectionIndex, newSelectionIndex, realIndex) => ChangePropListItem(realIndex, newSelectionIndex, listItem);
+
+            propsMenu.OnListItemSelect += async (sender, listItem, listIndex, realIndex) =>
             {
-                var propIndex = realIndex;
-                if (realIndex == 3)
+                int controlIndex = 0;
+                bool isCtrlPressed = Game.IsControlPressed(controlIndex, Control.Duck);
+
+                if (isCtrlPressed)
                 {
-                    propIndex = 6;
-                }
-                if (realIndex == 4)
-                {
-                    propIndex = 7;
+                    string userInput = await GetUserInput("Enter Prop ID", 5);
+
+                    if (string.IsNullOrEmpty(userInput) || !int.TryParse(userInput, out int drawableId) || drawableId < -1 || drawableId > listItem.ItemsCount)
+                    {
+                        Notify.Error("Invalid input");
+                        return;
+                    }
+
+                    listItem.ListIndex = drawableId;
+
+                    if (drawableId == -1)
+                    {
+                        ClearPedProp(Game.PlayerPed.Handle, realIndex);
+                        return;
+                    }
+
+                    ChangePropListItem(realIndex, drawableId, listItem);
+                    return;
                 }
 
-                var textureIndex = 0;
-                if (newSelectionIndex >= GetNumberOfPedPropDrawableVariations(Game.PlayerPed.Handle, propIndex))
-                {
-                    SetPedPropIndex(Game.PlayerPed.Handle, propIndex, -1, -1, false);
-                    ClearPedProp(Game.PlayerPed.Handle, propIndex);
-                    currentCharacter.PropVariations.props ??= new Dictionary<int, KeyValuePair<int, int>>();
-                    currentCharacter.PropVariations.props[propIndex] = new KeyValuePair<int, int>(-1, -1);
-                    listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures.";
-                }
-                else
-                {
-                    SetPedPropIndex(Game.PlayerPed.Handle, propIndex, newSelectionIndex, textureIndex, true);
-                    currentCharacter.PropVariations.props ??= new Dictionary<int, KeyValuePair<int, int>>();
-                    currentCharacter.PropVariations.props[propIndex] = new KeyValuePair<int, int>(newSelectionIndex, textureIndex);
-                    if (GetPedPropIndex(Game.PlayerPed.Handle, propIndex) == -1)
-                    {
-                        listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures.";
-                    }
-                    else
-                    {
-                        var maxPropTextures = GetNumberOfPedPropTextureVariations(Game.PlayerPed.Handle, propIndex, newSelectionIndex);
-                        listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{textureIndex + 1} (of {maxPropTextures}).";
-                    }
-                }
-            };
-
-            propsMenu.OnListItemSelect += (sender, listItem, listIndex, realIndex) =>
-            {
                 var propIndex = realIndex;
                 if (realIndex == 3)
                 {
@@ -1495,8 +1505,45 @@ namespace vMenuClient.menus
                         listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{newTextureIndex + 1} (of {maxPropTextures}).";
                     }
                 }
-                //propsMenu.UpdateScaleform();
             };
+
+            void ChangePropListItem(int itemIndex, int newSelectionIndex, MenuListItem listItem)
+            {
+                var propIndex = itemIndex;
+                if (itemIndex == 3)
+                {
+                    propIndex = 6;
+                }
+                if (itemIndex == 4)
+                {
+                    propIndex = 7;
+                }
+
+                var textureIndex = 0;
+                if (newSelectionIndex >= GetNumberOfPedPropDrawableVariations(Game.PlayerPed.Handle, propIndex))
+                {
+                    SetPedPropIndex(Game.PlayerPed.Handle, propIndex, -1, -1, false);
+                    ClearPedProp(Game.PlayerPed.Handle, propIndex);
+                    currentCharacter.PropVariations.props ??= new Dictionary<int, KeyValuePair<int, int>>();
+                    currentCharacter.PropVariations.props[propIndex] = new KeyValuePair<int, int>(-1, -1);
+                    listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures.";
+                }
+                else
+                {
+                    SetPedPropIndex(Game.PlayerPed.Handle, propIndex, newSelectionIndex, textureIndex, true);
+                    currentCharacter.PropVariations.props ??= new Dictionary<int, KeyValuePair<int, int>>();
+                    currentCharacter.PropVariations.props[propIndex] = new KeyValuePair<int, int>(newSelectionIndex, textureIndex);
+                    if (GetPedPropIndex(Game.PlayerPed.Handle, propIndex) == -1)
+                    {
+                        listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures.";
+                    }
+                    else
+                    {
+                        var maxPropTextures = GetNumberOfPedPropTextureVariations(Game.PlayerPed.Handle, propIndex, newSelectionIndex);
+                        listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{textureIndex + 1} (of {maxPropTextures}).";
+                    }
+                }
+            }
             #endregion
 
             #region face shape data
@@ -1692,9 +1739,30 @@ namespace vMenuClient.menus
                 }
             };
 
-            tattoosMenu.OnListItemSelect += (sender, item, tattooIndex, menuIndex) =>
+            tattoosMenu.OnListItemSelect += async (sender, item, tattooIndex, menuIndex) =>
             {
                 CreateListsIfNull();
+
+                int controlIndex = 0;
+                bool isBadgesItem = menuIndex == 6;
+                bool isCtrlPressed = Game.IsControlPressed(controlIndex, Control.Duck);
+
+                if (isCtrlPressed)
+                {
+                    string userInput = await GetUserInput($"Enter {(isBadgesItem ? "Badge" : "Tattoo")} ID", 5);
+
+                    if (string.IsNullOrEmpty(userInput) || !int.TryParse(userInput, out int drawableId) || drawableId < 1 || drawableId > item.ItemsCount)
+                    {
+                        Notify.Error("Invalid input");
+                        return;
+                    }
+
+                    drawableId--;
+
+                    item.ListIndex = drawableId;
+
+                    tattooIndex = drawableId;
+                }
 
                 if (menuIndex == 0) // head
                 {
@@ -1786,7 +1854,7 @@ namespace vMenuClient.menus
                         currentCharacter.PedTatttoos.RightLegTattoos.Add(tat);
                     }
                 }
-                else if (menuIndex == 6) // badges
+                else if (isBadgesItem)
                 {
                     var Tattoo = currentCharacter.IsMale ? MaleTattoosCollection.BADGES.ElementAt(tattooIndex) : FemaleTattoosCollection.BADGES.ElementAt(tattooIndex);
                     var tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
