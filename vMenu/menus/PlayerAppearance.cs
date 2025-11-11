@@ -617,7 +617,6 @@ namespace vMenuClient.menus
                     {
                         ShowVisorText(Game.PlayerPed.Handle);
                     }
-
                 }
             }
             #endregion
