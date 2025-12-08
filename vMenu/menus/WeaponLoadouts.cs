@@ -71,7 +71,19 @@ namespace vMenuClient.menus
 
             foreach (var save in saves)
             {
-                SavedWeapons.Add(save, JsonConvert.DeserializeObject<List<ValidWeapon>>(GetResourceKvpString(save)));
+                var kvpValue = GetResourceKvpString(save);
+                if (!string.IsNullOrEmpty(kvpValue))
+                {
+                    try
+                    {
+                        SavedWeapons.Add(save, JsonConvert.DeserializeObject<List<ValidWeapon>>(kvpValue));
+                    }
+                    catch
+                    {
+                        // Skip corrupted/invalid weapon loadout data
+                        Debug.WriteLine($"[vMenu-crashFix] Warning: Skipping corrupted weapon loadout: {save}");
+                    }
+                }
             }
 
             return SavedWeapons;
