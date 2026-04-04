@@ -29,10 +29,11 @@ jobs:
     runs-on: windows-latest
 
     outputs:
-      semver: ${{ steps.version.outputs.semver }}
-      tag: ${{ steps.version.outputs.tag }}
+      semver:        ${{ steps.version.outputs.semver }}
+      assembly_ver:  ${{ steps.version.outputs.assembly_ver }}
+      tag:           ${{ steps.version.outputs.tag }}
       is_prerelease: ${{ steps.version.outputs.is_prerelease }}
-      zip_name: ${{ steps.version.outputs.zip_name }}
+      zip_name:      ${{ steps.version.outputs.zip_name }}
 
     steps:
       - name: Checkout
@@ -57,24 +58,28 @@ jobs:
         run: |
           if [ "$GITHUB_REF" = "refs/heads/master" ]; then
             SEMVER="${{ steps.gitversion.outputs.semVer }}"
+            ASSEMBLY_VER="${{ steps.gitversion.outputs.assemblySemVer }}"
             TAG="v$SEMVER"
             IS_PRERELEASE="false"
           elif [ "$GITHUB_REF" = "refs/heads/development" ]; then
             MMP="${{ steps.gitversion.outputs.majorMinorPatch }}"
             SHORT_SHA="${{ steps.gitversion.outputs.shortSha }}"
             SEMVER="${MMP}-dev-${{ github.run_number }}-${SHORT_SHA}"
+            ASSEMBLY_VER="${{ steps.gitversion.outputs.assemblySemVer }}"
             TAG="dev-v${SEMVER}"
             IS_PRERELEASE="true"
           else
             SEMVER=""
+            ASSEMBLY_VER=""
             TAG=""
             IS_PRERELEASE="false"
           fi
           ZIP_NAME="vMenu-${SEMVER:-dev-${{ github.run_number }}}.zip"
-          echo "semver=$SEMVER"             >> "$GITHUB_OUTPUT"
-          echo "tag=$TAG"                   >> "$GITHUB_OUTPUT"
+          echo "semver=$SEMVER"               >> "$GITHUB_OUTPUT"
+          echo "assembly_ver=$ASSEMBLY_VER"   >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG"                     >> "$GITHUB_OUTPUT"
           echo "is_prerelease=$IS_PRERELEASE" >> "$GITHUB_OUTPUT"
-          echo "zip_name=$ZIP_NAME"         >> "$GITHUB_OUTPUT"
+          echo "zip_name=$ZIP_NAME"           >> "$GITHUB_OUTPUT"
 
   # ============================================================
   # BUILD — runs on every branch
@@ -94,7 +99,18 @@ jobs:
         run: dotnet restore vMenu.sln
 
       - name: Build
-        run: dotnet build vMenu.sln -c Release --no-restore
+        shell: bash
+        run: |
+          SEMVER="${{ needs.version.outputs.semver }}"
+          ASSEMBLY_VER="${{ needs.version.outputs.assembly_ver }}"
+          if [ -n "$SEMVER" ] && [ -n "$ASSEMBLY_VER" ]; then
+            dotnet build vMenu.sln -c Release --no-restore \
+              -p:Version="$SEMVER" \
+              -p:AssemblyVersion="$ASSEMBLY_VER" \
+              -p:FileVersion="$ASSEMBLY_VER"
+          else
+            dotnet build vMenu.sln -c Release --no-restore
+          fi
 
       - name: Download fxmanifest.lua
         shell: pwsh
