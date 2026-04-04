@@ -62,7 +62,7 @@ jobs:
           elif [ "$GITHUB_REF" = "refs/heads/development" ]; then
             MMP="${{ steps.gitversion.outputs.majorMinorPatch }}"
             SHORT_SHA="${{ steps.gitversion.outputs.shortSha }}"
-            SEMVER="${MMP}-dev-${SHORT_SHA}"
+            SEMVER="${MMP}-dev-${{ github.run_number }}-${SHORT_SHA}"
             TAG="dev-v${SEMVER}"
             IS_PRERELEASE="true"
           else
