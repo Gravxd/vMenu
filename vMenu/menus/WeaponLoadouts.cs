@@ -78,10 +78,9 @@ namespace vMenuClient.menus
                     {
                         SavedWeapons.Add(save, JsonConvert.DeserializeObject<List<ValidWeapon>>(kvpValue));
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        // Skip corrupted/invalid weapon loadout data
-                        Debug.WriteLine($"[vMenu-crashFix] Warning: Skipping corrupted weapon loadout: {save}");
+                        Debug.WriteLine($"[vMenu] Error: Failed to load corrupted saved loadout.\nStacktrace: {ex.StackTrace}\nError message: {ex.Message}\nSaved JSON: {kvpValue}\nSaveName: {save}");
                     }
                 }
             }
