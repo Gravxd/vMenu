@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "**"
+  pull_request:
 
 permissions:
   contents: write
@@ -112,10 +113,9 @@ jobs:
             dotnet build vMenu.sln -c Release --no-restore
           fi
 
-      - name: Download fxmanifest.lua
+      - name: Copy fxmanifest.lua
         shell: pwsh
-        run: |
-          Invoke-WebRequest -OutFile 'build/vMenu/fxmanifest.lua' 'https://vespura.com/vmenu/fxmanifest.lua'
+        run: Copy-Item 'assets/fxmanifest.lua' 'build/vMenu/fxmanifest.lua' -Force
 
       - name: Inject version into fxmanifest.lua
         shell: pwsh
