@@ -219,15 +219,15 @@ jobs:
             } > release_notes.md
           fi
 
-          PRERELEASE_FLAG=""
+          EXTRA_FLAGS=""
           if [ "$IS_PRERELEASE" = "true" ]; then
-            PRERELEASE_FLAG="--prerelease"
+            EXTRA_FLAGS="--prerelease --draft"
           fi
 
           RELEASE_URL=$(gh release create "$TAG" \
             --title "vMenu $VERSION" \
             --notes-file release_notes.md \
-            $PRERELEASE_FLAG \
+            $EXTRA_FLAGS \
             "release-assets/${{ needs.version.outputs.zip_name }}")
 
           echo "release_url=$RELEASE_URL" >> "$GITHUB_OUTPUT"
